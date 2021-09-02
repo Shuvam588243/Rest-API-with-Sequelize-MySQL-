@@ -66,6 +66,39 @@ const AddBulkStudents = (req,res) =>
     res.json({ msg : 'Bulk Data Added'})
 }
 
+const GetStudentByID = async(req,res) =>
+{
+    const {id} = req.params
+    const Student = await db.students.findOne({
+        where : {
+            id 
+        }
+    })
+
+    res.json(
+        {
+            student : Student
+        }
+    )
+}
+
+
+const getAllStudentName = async(req,res) =>
+{
+    const Student = await db.students.findAll({
+        attributes : [
+            'id',
+            ['name','Student Name']
+        ],
+        order : [
+        ['name','DESC']
+        ]
+    })
+
+    res.json({ 
+        Student
+    })
+}
 
 module.exports = { 
     AddBulkStudents, 
@@ -73,5 +106,7 @@ module.exports = {
     UpdateStudentByID,
     AddNewStudent, 
     GetAllStudents,
-    DeleteAllStudentByID
+    DeleteAllStudentByID,
+    GetStudentByID,
+    getAllStudentName
 }
